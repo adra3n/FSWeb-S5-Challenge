@@ -62,19 +62,18 @@ const cardEkleyici = (secici) => {
     
       const cardContainer = document.querySelector(secici);
       const kategoriler = Object.keys(res?.data?.makaleler);
-      console.log (kategoriler + "kategoriler")
+      // console.log (kategoriler + "kategoriler")
         for (let i = 0; i < kategoriler.length; i++) {
           const kategori = kategoriler[i];
           const makaleler = res?.data?.makaleler[kategori];
-          console.log (makaleler + "makaleler")
-          console.log (kategori)
+          // console.log (makaleler + "makaleler")
+          // console.log (kategori)
             for (let j = 0; j < makaleler.length; j++) {
-              const makale = makaleler[j];
-             
+              const makale = makaleler[j];         
               cardContainer.append(Card(makale));
             }
         }
-        
+
     })
     .catch((err) => {
       console.log("Error cardEkleyici", err);
