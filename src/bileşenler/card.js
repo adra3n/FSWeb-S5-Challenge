@@ -2,8 +2,7 @@ import axios from 'axios';
 
 
 const Card = (data) => {      
-  
-  
+
         const cardDiv = document.createElement("div");
         cardDiv.classList.add("card");
 
@@ -19,23 +18,20 @@ const Card = (data) => {
         const authorDiv = document.createElement("div");
         authorDiv.classList.add("author");
         cardDiv.append(authorDiv);
-        
+
         const imgContainer = document.createElement("div");
         imgContainer.classList.add("img-container");
         authorDiv.append(imgContainer);
         
-        const imgYazar = document.createElement("div");
+        const imgYazar = document.createElement("img");
         imgYazar.setAttribute("src", data?.yazarFoto)
         imgContainer.append(imgYazar);
         
      
         const yazarSpan = document.createElement("span");
         yazarSpan.textContent = `${data?.yazarAdi} tarafından`
-        cardDiv.append(yazarSpan);
-
-      
+        authorDiv.append(yazarSpan);
     
-
   return cardDiv;
 }
 
@@ -78,6 +74,7 @@ const cardEkleyici = (secici) => {
               cardContainer.append(Card(makale));
             }
         }
+        
     })
     .catch((err) => {
       console.log("Error cardEkleyici", err);
