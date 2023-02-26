@@ -1,49 +1,40 @@
 import axios from 'axios';
 
-const Card = (data) => {
+
+const Card = (data) => {      
   
+  
+        const cardDiv = document.createElement("div");
+        cardDiv.classList.add("card");
 
-  let kategoriler = Object.keys(data?.makaleler);
-  let articles = [];
-  kategoriler.forEach(kategori => {
-    articles.push(data?.makaleler[kategori])
+        const anaBaslik = document.createElement("div");
+        anaBaslik.classList.add("headline");
+        anaBaslik.textContent = data?.anabaslik;
+        cardDiv.append(anaBaslik);
 
-    articles.forEach(makale => {
-      console.log (makale);
-      let makaleBaslik = makale.anabaslik;
-      let yazarFoto = makale.yazarFoto;
-      let yazarAdi = makale.yazarAdi;
+        cardDiv.addEventListener("click", () => {
+          console.log(data?.anabaslik);
+        });
+        
+        const authorDiv = document.createElement("div");
+        authorDiv.classList.add("author");
+        cardDiv.append(authorDiv);
+        
+        const imgContainer = document.createElement("div");
+        imgContainer.classList.add("img-container");
+        authorDiv.append(imgContainer);
+        
+        const imgYazar = document.createElement("div");
+        imgYazar.setAttribute("src", data?.yazarFoto)
+        imgContainer.append(imgYazar);
+        
+     
+        const yazarSpan = document.createElement("span");
+        yazarSpan.textContent = `${data?.yazarAdi} tarafından`
+        cardDiv.append(yazarSpan);
 
-      const cardDiv = document.createElement("div");
-      cardDiv.classList.add("card");
-
-      const anaBaslik = document.createElement("div");
-      anaBaslik.classList.add("headline");
-      anaBaslik.textContent = makaleBaslik;
-      cardDiv.append(anaBaslik);
-
-      cardDiv.addEventListener("click", () => {
-        console.log(makaleBaslik)
-      });
       
-      const authorDiv = document.createElement("div");
-      authorDiv.classList.add("author");
-      cardDiv.append(authorDiv);
-      
-      const imgYazar = document.createElement("div");
-      imgYazar.setAttribute("src", yazarFoto)
-      imgContainer.append(imgYazar);
-      
-      const imgContainer = document.createElement("div");
-      imgContainer.classList.add("img-container");
-      authorDiv.append(imgContainer);
-      
-      const yazarSpan = document.createElement("span");
-      yazarSpan.textContent = `${yazarAdi} tarafından`
-      cardDiv.append(yazarSpan);
-
-    });
-  });
+    
 
   return cardDiv;
 }
@@ -72,9 +63,21 @@ const cardEkleyici = (secici) => {
   axios
     .get(`http://localhost:5001/api/makaleler`)
     .then((res) => {
+    
       const cardContainer = document.querySelector(secici);
-      const cardItem = Card(res?.data);
-      cardContainer.append(cardItem);
+      const kategoriler = Object.keys(res?.data?.makaleler);
+      console.log (kategoriler + "kategoriler")
+        for (let i = 0; i < kategoriler.length; i++) {
+          const kategori = kategoriler[i];
+          const makaleler = res?.data?.makaleler[kategori];
+          console.log (makaleler + "makaleler")
+          console.log (kategori)
+            for (let j = 0; j < makaleler.length; j++) {
+              const makale = makaleler[j];
+             
+              cardContainer.append(Card(makale));
+            }
+        }
     })
     .catch((err) => {
       console.log("Error cardEkleyici", err);
